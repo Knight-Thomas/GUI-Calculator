@@ -4,8 +4,8 @@ import sys
 class CalcUI(QtWidgets.QMainWindow):
     def __init__(self):
         '''constructor method'''
-        super(CalcUI, self).__init__
-        uic.loadUi('calc_window.ui',self)
+        super(CalcUI, self).__init__()
+        uic.loadUi('/Users/tomknight/GUI-CalculatorA/GUI-Calculator/calc_window.ui',self)
 
         #add button event listeners here
 
@@ -14,6 +14,8 @@ class CalcUI(QtWidgets.QMainWindow):
 def mainApplication():
     app = QtWidgets.QApplication(sys.argv)
     window = CalcUI()
-    app._exec_()
+    app.exec_()
     app.quit() #quit when all windows are closed
     sys.exit(app.exec_()) #execute the application event loop
+
+mainApplication()
