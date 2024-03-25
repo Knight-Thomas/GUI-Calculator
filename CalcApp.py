@@ -2,11 +2,19 @@ from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import sys
 
 class CalcUI(QtWidgets.QMainWindow):
+    def btnInput(self, param):
+        '''handles a button click'''
+        self.current = self.current+str(param)
+        self.Outputlabel.setText(self.current)
+        self.display = self.display+str(param)
+        self.CalcOut.setText(self.display)
+
     def __init__(self):
         '''constructor method'''
         super(CalcUI, self).__init__()
         uic.loadUi('/Users/tomknight/GUI-CalculatorA/GUI-Calculator/calc_window.ui',self)
-
+        self.display = ''
+        self.current = ''
         #add button event listeners here
         #self.Equalbutton.clicked.connect(self.btnInput())
         #self.Clearbutton.clicked.connect(self.btnInput())
@@ -25,15 +33,10 @@ class CalcUI(QtWidgets.QMainWindow):
         self.Sevenbutton.clicked.connect(lambda: self.btnInput('7'))
         self.Eightbutton.clicked.connect(lambda: self.btnInput('8'))
         self.Ninebutton.clicked.connect(lambda: self.btnInput('9'))
-        
+        self.Outputlabel.setAlignment(QtCore.Qt.AlignRight)
         self.show()
 
-    def btnInput(self, param):
-        '''handles a button click'''
-        self.current = self.current+str(param)
-        #self.Outputlabel.setText(self.current)
-        print(self.current)
-
+    
     
 def mainApplication():
     app = QtWidgets.QApplication(sys.argv)
