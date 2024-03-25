@@ -2,13 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import sys
 
 class CalcUI(QtWidgets.QMainWindow):
-    def btnInput(self, param):
-        '''handles a button click'''
-        self.current = self.current+str(param)
-        self.Outputlabel.setText(self.current)
-        self.display = self.display+str(param)
-        self.CalcOut.setText(self.display)
-
+    
     def __init__(self):
         '''constructor method'''
         super(CalcUI, self).__init__()
@@ -16,13 +10,17 @@ class CalcUI(QtWidgets.QMainWindow):
         self.display = ''
         self.current = ''
         #add button event listeners here
-        #self.Equalbutton.clicked.connect(self.btnInput())
-        #self.Clearbutton.clicked.connect(self.btnInput())
-        #self.Additionbutton.clicked.connect(self.btnInput())
-        #self.Subtractbutton.clicked.connect(self.btnInput())
-        #self.Multiplybutton.clicked.connect(self.btnInput())
-        #self.Divisionbutton.clicked.connect(self.btnInput())
-        #self.DecimaPoint.clicked.connect(self.btnInput())
+        self.Equalbutton.clicked.connect(self.equalMethod)
+        self.Clearbutton.clicked.connect(self.allClearMethod)
+        self.Adittionbutton.clicked.connect(lambda: self.opButton('+'))
+        self.Adittionbutton.clicked.connect( self.OutputLblClear)
+        self.Subtractbutton.clicked.connect(lambda: self.opButton('-'))
+        self.Subtractbutton.clicked.connect(self.OutputLblClear)
+        self.Multiplybutton.clicked.connect(lambda: self.opButton('*'))
+        self.Multiplybutton.clicked.connect(self.OutputLblClear)
+        self.Divisionbutton.clicked.connect(lambda: self.opButton('/'))
+        self.Divisionbutton.clicked.connect(self.OutputLblClear)
+        self.DecimalPoint.clicked.connect(lambda: self.btnInput('.'))
         self.Zerobutton.clicked.connect(lambda: self.btnInput('0'))
         self.Onebutton.clicked.connect(lambda: self.btnInput('1'))
         self.Twobutton.clicked.connect(lambda: self.btnInput('2'))
@@ -36,8 +34,37 @@ class CalcUI(QtWidgets.QMainWindow):
         self.Outputlabel.setAlignment(QtCore.Qt.AlignRight)
         self.show()
 
+    def equalMethod(self):
+        '''handles the euals operation'''
+        self.current = str(eval(self.display))
+        self.Outputlabel.setText(self.current)
+        self.display = ''
+        self.CalcOut.setText('')
+
+    def btnInput(self, param):
+        '''handles a button click'''
+        self.current = self.current+str(param)
+        self.Outputlabel.setText(self.current)
+        self.display = self.display+str(param)
+        self.CalcOut.setText(self.display)
+
+    def allClearMethod(self):
+        '''resets the display'''
+        self.current = ''
+        self.Outputlabel.setText('0')
+        self.display = ''
+        self.CalcOut.setText(self.display)
     
-    
+    def opButton(self, op):
+        '''handles operators +,-,/,*'''
+        self.display = self.display+str(op)
+        self.CalcOut.setText(self.display)
+
+    def OutputLblClear(self):
+        '''clears the output label when an operator is called'''
+        self.current = ''
+        self.Outputlabel.setText('')
+
 def mainApplication():
     app = QtWidgets.QApplication(sys.argv)
     window = CalcUI()
